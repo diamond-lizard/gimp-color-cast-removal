@@ -26,11 +26,13 @@
          (selection-lower-right-x (head selection-bounds))
          (selection-bounds (tail selection-bounds))
          (selection-lower-right-y (head selection-bounds))
+         ; Create a new layer from the selection (or from whole image, if there's no selection)
          (ignored (gimp-edit-copy given-layer))
          (floating-selection (car (gimp-edit-paste given-layer FALSE)))
          (ignored (gimp-floating-sel-to-layer floating-selection))
          (correction-layer (car (gimp-image-active-drawable 1)))
          (ignored (gimp-item-set-name correction-layer "Color correction"))
+         ; Find the average color of the new layer
          (sample-merged FALSE) ; FALSE = Only sample active layer
          (sample-average TRUE) ; TRUE  = Average within radius
          (radius 10000)        ; How much to average
