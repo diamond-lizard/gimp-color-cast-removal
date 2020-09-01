@@ -42,17 +42,60 @@
                                         selection-upper-left-x
                                         selection-upper-left-y
                                         sample-merged
-                                        sample-average radius)))
-         (new-width 100)
-         (new-height 100)
-         (local-origin FALSE)
-         (ignored (gimp-layer-scale
-                   correction-layer
-                   new-width
-                   new-height
-                   local-origin)))
+                                        sample-average radius))))
+    (gimp-image-remove-layer given-image correction-layer)
+    (gimp-selection-none given-image)
+    ; Saving coordinates of image
+    (let* ((selection-bounds (gimp-selection-bounds given-image))
+           (selection-non-empty (head selection-bounds))
+           (selection-bounds (tail selection-bounds))
+           (selection-upper-left-x (head selection-bounds))
+           (selection-bounds (tail selection-bounds))
+           (selection-upper-left-y (head selection-bounds))
+           (selection-bounds (tail selection-bounds))
+           (selection-lower-right-x (head selection-bounds))
+           (selection-bounds (tail selection-bounds))
+           (selection-lower-right-y (head selection-bounds))
+           (correction-layer-opacity 100)
+           ; Create a new correction layer
+           (correction-layer (car (gimp-layer-new
+                                   given-image
+                                   selection-lower-right-x
+                                   selection-lower-right-y
+                                   RGB-IMAGE
+                                   "Color Correction"
+                                   correction-layer-opacity
+                                   SOFTLIGHT-MODE)))
+           ; Correction layer parameters (used for layer insertion below)
+           (correction-layer-parent    0) ;  0 = Outside any group
+           (correction-layer-position -1) ; -1 = Above active layer
+           ; Bucket fill parameters
+           (bucket-fill-opacity 100)
+           (bucket-fill-threshold 255)
+           (bucket-fill-sample-merged FALSE)
+           (bucket-fill-x 0)
+           (bucket-fill-y 0))
+      ; Make the new correction layer visible
+      (gimp-image-insert-layer
+       given-image
+       correction-layer
+       correction-layer-parent
+       correction-layer-position)
+      ; Bucket fill can only use fg/bg colors, so we set fg color here:
+      (gimp-context-set-foreground average-selection-color)
+      (gimp-bucket-fill
+       correction-layer
+       BUCKET-FILL-FG
+       LAYER-MODE-NORMAL
+       bucket-fill-opacity
+       bucket-fill-threshold
+       bucket-fill-sample-merged
+       bucket-fill-x
+       bucket-fill-y)
+      ; Color correction starts with inverted color
+      (gimp-drawable-invert correction-layer TRUE)
     (gimp-image-undo-group-end given-image)
-    (gimp-displays-flush)))
+    (gimp-displays-flush))))
 
 (script-fu-register "script-fu-color-cast-removal"
                     "Color-Cast Removal"
