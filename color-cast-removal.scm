@@ -30,27 +30,27 @@
          (floating-selection (car (gimp-edit-paste given-layer FALSE)))
          (ignored (gimp-floating-sel-to-layer floating-selection))
          (correction-layer (car (gimp-image-active-drawable 1)))
+         (ignored (gimp-item-set-name correction-layer "Color correction"))
          (sample-merged FALSE) ; FALSE = Only sample active layer
          (sample-average TRUE) ; TRUE  = Average within radius
-         (radius 10000))       ; How much to average
-    (gimp-item-set-name correction-layer "Color correction")
-    (let* ((average-selection-color (gimp-image-pick-color
-                                     given-image
-                                     correction-layer
-                                     selection-upper-left-x
-                                     selection-upper-left-y
-                                     sample-merged
-                                     sample-average radius)))
-      (let ((new-width 100)
-            (new-height 100)
-            (local-origin FALSE))
-        (gimp-layer-scale
-         correction-layer
-         new-width
-         new-height
-         local-origin))
-      (gimp-image-undo-group-end given-image)
-      (gimp-displays-flush))))
+         (radius 10000)        ; How much to average
+         (average-selection-color (gimp-image-pick-color
+                                   given-image
+                                   correction-layer
+                                   selection-upper-left-x
+                                   selection-upper-left-y
+                                   sample-merged
+                                   sample-average radius))
+         (new-width 100)
+         (new-height 100)
+         (local-origin FALSE)
+         (ignored (gimp-layer-scale
+                   correction-layer
+                   new-width
+                   new-height
+                   local-origin)))
+    (gimp-image-undo-group-end given-image)
+    (gimp-displays-flush)))
 
 (script-fu-register "script-fu-color-cast-removal"
                     "Color-Cast Removal"
