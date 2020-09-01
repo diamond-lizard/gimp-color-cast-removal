@@ -34,13 +34,13 @@
          (sample-merged FALSE) ; FALSE = Only sample active layer
          (sample-average TRUE) ; TRUE  = Average within radius
          (radius 10000)        ; How much to average
-         (average-selection-color (gimp-image-pick-color
-                                   given-image
-                                   correction-layer
-                                   selection-upper-left-x
-                                   selection-upper-left-y
-                                   sample-merged
-                                   sample-average radius))
+         (average-selection-color (car (gimp-image-pick-color
+                                        given-image
+                                        correction-layer
+                                        selection-upper-left-x
+                                        selection-upper-left-y
+                                        sample-merged
+                                        sample-average radius)))
          (new-width 100)
          (new-height 100)
          (local-origin FALSE)
