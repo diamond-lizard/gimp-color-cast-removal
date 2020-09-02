@@ -47,7 +47,7 @@
          (ignored (gimp-edit-copy given-layer))
          (floating-selection (car (gimp-edit-paste given-layer FALSE)))
          (ignored (gimp-floating-sel-to-layer floating-selection))
-         (correction-layer (car (gimp-image-active-drawable 1)))
+         (correction-layer (car (gimp-image-active-drawable given-image)))
          (ignored (gimp-item-set-name correction-layer "Color correction"))
          ; Find the average color of the new layer
          (sample-merged FALSE) ; FALSE = Only sample active layer
