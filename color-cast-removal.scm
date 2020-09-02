@@ -117,7 +117,7 @@
 
 ; Returns the average color of the active selection
 ; (or of the active layer, if there is no selection)
-(define (get-average-selection-color given-image given-layer)
+(define (get-average-selection-color given-image given-layer given-radius)
   (let* ((selection-upper-left-bounds (get-upper-left-bounds given-image))
          (selection-upper-left-x (car selection-upper-left-bounds))
          (selection-upper-left-y (cadr selection-upper-left-bounds))
@@ -130,7 +130,7 @@
          ; Find the average color of the new layer
          (sample-merged FALSE) ; FALSE = Only sample active layer
          (sample-average TRUE) ; TRUE  = Average within radius
-         (radius 10000)        ; How much to average
+         (radius given-radius) ; How much to average
          (average-selection-color (car (gimp-image-pick-color
                                         given-image
                                         sample-layer
@@ -158,9 +158,9 @@
     (list selection-upper-left-x selection-upper-left-y)))
 
 
-(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode given-opacity)
+(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode given-opacity given-radius)
   (gimp-image-undo-group-start given-image)
-  (let ((average-selection-color (get-average-selection-color given-image given-layer)))
+  (let ((average-selection-color (get-average-selection-color given-image given-layer given-radius)))
     (gimp-selection-none given-image)
     ; Saving coordinates of image
     (let* ((correction-layer (create-correction-layer
@@ -203,7 +203,8 @@
                     SF-IMAGE "Image" 0
                     SF-DRAWABLE "Layer" 0
                     SF-OPTION "Correction layer mode" '("Soft-Light" "Hard-Light" "Overlay")
-                    SF-ADJUSTMENT "Correction layer opacity (reduce to lessen effect)" '(100 1 100 1 10 0 SF-SPINNER))
+                    SF-ADJUSTMENT "Correction layer opacity (reduce to lessen effect)" '(100 1 100 1 10 0 SF-SPINNER)
+                    SF-ADJUSTMENT "Radius to sample for averaging" '(10000000 1 10000000 1 1000 0 SF-SPINNER))
 
 
 (script-fu-menu-register "script-fu-color-cast-removal" "<Image>/Filters/Enhance")
