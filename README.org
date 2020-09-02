@@ -35,6 +35,8 @@ So, judicious selection of part of the image before running the script can be ve
 This achieves the best results because you can dial in just the right amount of color correction.
 *** If there's not enough color correction, try duplicating the color correction layer
 *** If the effect is too strong, reduce the opacity of the color correction layer
+*** For more tips and to see the technique that inspired this script in action watch this video:
+[[https://www.youtube.com/watch?v=gr692iyYBUI][Colour Correction in Gimp - Removing Color Cast]] by [[https://www.youtube.com/user/Pixovert][Pixovert]]
 ** Testing:
 This script was only tested on GIMP 2.10.8 on amd64 Gentoo Linux
 ** Issues and bugs
