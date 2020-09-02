@@ -50,11 +50,13 @@
      bucket-fill-y)))
 
 
-(define (create-correction-layer given-image correction-layer-mode average-selection-color)
+(define (create-correction-layer given-image
+                                 correction-layer-mode
+                                 average-selection-color
+                                 given-opacity)
   (let* ((selection-lower-right-bounds (get-lower-right-bounds given-image))
          (selection-lower-right-x (car selection-lower-right-bounds))
          (selection-lower-right-y (cadr selection-lower-right-bounds))
-         (correction-layer-opacity 100)
          ; Create a new correction layer
          (correction-layer-mode
           (determine-correction-layer-mode correction-layer-mode))
@@ -64,7 +66,7 @@
                                  selection-lower-right-y
                                  RGB-IMAGE
                                  "Color Correction"
-                                 correction-layer-opacity
+                                 given-opacity
                                  correction-layer-mode)))
          ; Correction layer parameters (used for layer insertion below)
          (correction-layer-parent    0)  ;  0 = Outside any group
@@ -156,7 +158,7 @@
     (list selection-upper-left-x selection-upper-left-y)))
 
 
-(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode)
+(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode given-opacity)
   (gimp-image-undo-group-start given-image)
   (let ((average-selection-color (get-average-selection-color given-image given-layer)))
     (gimp-selection-none given-image)
@@ -164,7 +166,8 @@
     (let* ((correction-layer (create-correction-layer
                               given-image
                               correction-layer-mode
-                              average-selection-color)))
+                              average-selection-color
+                              given-opacity)))
       (set-fg-to-inverted-color given-image correction-layer))
     (gimp-image-undo-group-end given-image)
     (gimp-displays-flush)))
@@ -199,7 +202,8 @@
                     ""
                     SF-IMAGE "Image" 0
                     SF-DRAWABLE "Layer" 0
-                    SF-OPTION "Correction layer mode" '("Soft-Light" "Hard-Light" "Overlay"))
+                    SF-OPTION "Correction layer mode" '("Soft-Light" "Hard-Light" "Overlay")
+                    SF-ADJUSTMENT "Correction layer opacity" '(100 1 100 1 10 0 SF-SPINNER))
 
 
 (script-fu-menu-register "script-fu-color-cast-removal" "<Image>/Filters/Enhance")

@@ -16,6 +16,8 @@ Select a part of the image, if you want to color correct the active layer using 
 Note: If nothing is selected then the color correction will be done using the inverse of the average color of the entire active layer.
 *** 2
 Run the script from: Filters -> Enhance -> Color-Cast Removal
+*** 3 (Optional)
+Select the mode and opacity of the color correction layer, or just leave them set to the defaults.
 ** Testing:
 This script was only tested on GIMP 2.10.8 on amd64 Gentoo Linux
 ** Issues and bugs
