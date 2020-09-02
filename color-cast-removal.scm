@@ -54,13 +54,7 @@
          (correction-layer-opacity 100)
          ; Create a new correction layer
          (correction-layer-mode
-          (cond
-           ((equal? correction-layer-mode 0)
-            LAYER-MODE-SOFTLIGHT)
-           ((equal? correction-layer-mode 1)
-            LAYER-MODE-HARDLIGHT)
-           ((equal? correction-layer-mode 2)
-            LAYER-MODE-OVERLAY)))
+          (determine-correction-layer-mode correction-layer-mode))
          (correction-layer (car (gimp-layer-new
                                  given-image
                                  selection-lower-right-x
@@ -84,6 +78,21 @@
     ; Color correction starts with inverted color
     (gimp-drawable-invert correction-layer TRUE)
     correction-layer))
+
+
+; GIMP passes us only an integer corresponding to the correction-layer-mode
+; chosen by the user.
+;
+; This is where we convert that interger in to a meaningful variable name.
+(define (determine-correction-layer-mode correction-layer-mode)
+  (cond
+   ((equal? correction-layer-mode 0)
+    LAYER-MODE-SOFTLIGHT)
+   ((equal? correction-layer-mode 1)
+    LAYER-MODE-HARDLIGHT)
+   ((equal? correction-layer-mode 2)
+    LAYER-MODE-OVERLAY)))
+
 
 ; Return the lower-right-x and lower-right-y of the given selection
 ; or of the image, if nothing is selected
