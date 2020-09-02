@@ -8,7 +8,7 @@ The active layer will not be modified.  Instead a new color-correction layer wil
 *** 1
 Copy the "color-cast-removal.scm" file to $XDG_CONFIG_HOME/GIMP/2.10/scripts or an alternate location (chosen via Preferences -> Folders -> Scripts)
 *** 2
-Select Filters -> Script-Fu -> Refresh Scripts
+Filters -> Script-Fu -> Refresh Scripts
 ** Use
 *** 1 (Optional)
 Select a part of the image, if you want to color correct the active layer using the inverse of the average color in the selection.
