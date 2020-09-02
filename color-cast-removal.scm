@@ -203,7 +203,7 @@
                     SF-IMAGE "Image" 0
                     SF-DRAWABLE "Layer" 0
                     SF-OPTION "Correction layer mode" '("Soft-Light" "Hard-Light" "Overlay")
-                    SF-ADJUSTMENT "Correction layer opacity" '(100 1 100 1 10 0 SF-SPINNER))
+                    SF-ADJUSTMENT "Correction layer opacity (reduce to lessen effect)" '(100 1 100 1 10 0 SF-SPINNER))
 
 
 (script-fu-menu-register "script-fu-color-cast-removal" "<Image>/Filters/Enhance")
