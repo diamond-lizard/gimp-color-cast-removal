@@ -19,8 +19,8 @@ Installation:
 
 Use:
 
-1 - (Optional) Select a part of the image, if you want to color correct from
-    the inverse of the average color in the selection.
+1 - (Optional) Select a part of the image, if you want to color correct
+    the active layer using the inverse of the average color in the selection.
 
     Note: If nothing is selected then the color correction will be done
     using the inverse of the average color of the entire active layer.
