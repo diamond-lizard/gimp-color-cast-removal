@@ -1,5 +1,20 @@
 ; Color-Cast Removal
 ;
+; This script will automatically color-correct a the active layer,
+; based on the average color of the active selection,
+; or based on the whole layer if there is no selection.
+;
+; Note:
+;
+; The active layer will not be modified.  Instead a new color-correction
+; layer will be created.  This layer will be set to soft-light mode.
+; After the script finishes you may like to try out a different mode,
+; like hard-light or overlay.
+;
+; ===========================================================================
+;
+; LICENSE
+;
 ; This program is free software: you can redistribute it and/or modify
 ; it under the terms of the GNU Affero General Public License as published by
 ; the Free Software Foundation, either version 3 of the License, or
@@ -12,6 +27,8 @@
 ;
 ; You should have received a copy of the GNU Affero General Public License
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;
+; ===========================================================================
 
 (define (script-fu-color-cast-removal given-image given-layer)
   (gimp-image-undo-group-start given-image)
