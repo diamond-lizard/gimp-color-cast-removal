@@ -30,7 +30,7 @@
 ;
 ; ===========================================================================
 
-(define (script-fu-color-cast-removal given-image given-layer)
+(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode)
   (gimp-image-undo-group-start given-image)
   (let* ((selection-bounds (gimp-selection-bounds given-image))
          ; Saving coordinates of selection or image (if no selection)
@@ -136,6 +136,7 @@
                     "Aug 31, 2020"
                     ""
                     SF-IMAGE "Image" 0
-                    SF-DRAWABLE "Layer" 0)
+                    SF-DRAWABLE "Layer" 0
+                    SF-OPTION "Correction layer mode" '("Soft-Light" "Hard-Light" "Overlay"))
 
 (script-fu-menu-register "script-fu-color-cast-removal" "<Image>/Filters/Enhance")
