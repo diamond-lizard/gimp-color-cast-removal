@@ -29,6 +29,21 @@
 ;
 ; ===========================================================================
 
+; Return the lower-left-x and lower-left-y of the given selection
+; or of the image, if nothing is selected
+(define (get-lower-left-bounds image)
+  (let* ((selection-bounds (gimp-selection-bounds image))
+         (selection-non-empty (head selection-bounds))
+         (selection-bounds (tail selection-bounds))
+         (selection-upper-left-x (head selection-bounds))
+         (selection-bounds (tail selection-bounds))
+         (selection-upper-left-y (head selection-bounds))
+         (selection-bounds (tail selection-bounds))
+         (selection-lower-right-x (head selection-bounds))
+         (selection-bounds (tail selection-bounds))
+         (selection-lower-right-y (head selection-bounds)))
+    (list selection-lower-left-x selection-lower-left-y)))
+
 ; Return the upper-left-x and upper-left-y of the given selection
 ; or of the image, if nothing is selected
 (define (get-upper-left-bounds image)
@@ -69,16 +84,9 @@
     (gimp-image-remove-layer given-image sample-layer)
     (gimp-selection-none given-image)
     ; Saving coordinates of image
-    (let* ((selection-bounds (gimp-selection-bounds given-image))
-           (selection-non-empty (head selection-bounds))
-           (selection-bounds (tail selection-bounds))
-           (selection-upper-left-x (head selection-bounds))
-           (selection-bounds (tail selection-bounds))
-           (selection-upper-left-y (head selection-bounds))
-           (selection-bounds (tail selection-bounds))
-           (selection-lower-right-x (head selection-bounds))
-           (selection-bounds (tail selection-bounds))
-           (selection-lower-right-y (head selection-bounds))
+    (let* ((selection-lower-bounds (get-lower-left-bounds given-image))
+           (selection-lower-left-x (car selection-lower-bounds))
+           (selection-lower-left-y (cadr selection-lower-bounds))
            (correction-layer-opacity 100)
            ; Create a new correction layer
            (correction-layer-mode
