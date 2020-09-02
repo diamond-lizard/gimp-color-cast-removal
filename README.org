@@ -18,6 +18,23 @@ Note: If nothing is selected then the color correction will be done using the in
 Run the script from: Filters -> Enhance -> Color-Cast Removal
 *** 3 (Optional)
 Select the mode and opacity of the color correction layer, or just leave them set to the defaults.
+** Tips
+*** Before running the script, select part of the image which (were it not for the color cast) should be white
+My best results come from first selecting a part of the image that should be white (except that it has a color cast on it). A good example of such a part of the image is snow.
+
+I recently fixed an image of some skiers that had a strong blue cast on it. I selected the snow (which had a blue tinge to it) before running the script, and so the script used the inverse of blue (orange) for the color correction layer. If I hadn't selected everything, the script would have used the average of the entire image, which in this case would have resulted in a worse color correction because the image featured a person wearing a very bright red jacket, which made the script overcompensate towards the inverse of red (green) which didn't help.
+
+So, judicious selection of part of the image before running the script can be very helpful.
+*** Run colorize on the color correction layer after the script finishes
+1 - open the colorize dialog (Colors -> Colorize) on the color correction layer
+
+2 - set the colorize color to the inverse color that the script found and already set as your foreground color
+
+3 - adjust the saturation and lightness in the colorize dialog to taste
+
+This achieves the best results because you can dial in just the right amount of color correction.
+*** If there's not enough color correction, try duplicating the color correction layer
+*** If the effect is too strong, reduce the opacity of the color correction layer
 ** Testing:
 This script was only tested on GIMP 2.10.8 on amd64 Gentoo Linux
 ** Issues and bugs
