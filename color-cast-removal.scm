@@ -7,9 +7,8 @@
 ; Note:
 ;
 ; The active layer will not be modified.  Instead a new color-correction
-; layer will be created.  This layer will be set to soft-light mode.
-; After the script finishes you may like to try out a different mode,
-; like hard-light or overlay.
+; layer will be created, which will be set to your chosen mode.
+; After the script finishes you may like to try out a different layer mode.
 ;
 ; ===========================================================================
 ;
