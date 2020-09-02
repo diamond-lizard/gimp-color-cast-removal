@@ -30,6 +30,23 @@
 ; ===========================================================================
 
 
+(define (bucket-fill-correction-layer correction-layer)
+  ; Bucket fill parameters
+  (let* ((bucket-fill-opacity 100)
+         (bucket-fill-threshold 255)
+         (bucket-fill-sample-merged FALSE)
+         (bucket-fill-x 0)
+         (bucket-fill-y 0))
+    (gimp-bucket-fill
+     correction-layer
+     BUCKET-FILL-FG
+     LAYER-MODE-NORMAL
+     bucket-fill-opacity
+     bucket-fill-threshold
+     bucket-fill-sample-merged
+     bucket-fill-x
+     bucket-fill-y)))
+
 (define (create-correction-layer given-image correction-layer-mode average-selection-color)
   (let* ((selection-lower-right-bounds (get-lower-right-bounds given-image))
          (selection-lower-right-x (car selection-lower-right-bounds))
@@ -53,14 +70,8 @@
                                  correction-layer-opacity
                                  correction-layer-mode)))
          ; Correction layer parameters (used for layer insertion below)
-         (correction-layer-parent    0) ;  0 = Outside any group
-         (correction-layer-position -1) ; -1 = Above active layer
-         ; Bucket fill parameters
-         (bucket-fill-opacity 100)
-         (bucket-fill-threshold 255)
-         (bucket-fill-sample-merged FALSE)
-         (bucket-fill-x 0)
-         (bucket-fill-y 0))
+         (correction-layer-parent    0)  ;  0 = Outside any group
+         (correction-layer-position -1)) ; -1 = Above active layer
     ; Make the new correction layer visible
     (gimp-image-insert-layer
      given-image
@@ -69,15 +80,7 @@
      correction-layer-position)
     ; Bucket fill can only use fg/bg colors, so we set fg color here:
     (gimp-context-set-foreground average-selection-color)
-    (gimp-bucket-fill
-     correction-layer
-     BUCKET-FILL-FG
-     LAYER-MODE-NORMAL
-     bucket-fill-opacity
-     bucket-fill-threshold
-     bucket-fill-sample-merged
-     bucket-fill-x
-     bucket-fill-y)
+    (bucket-fill-correction-layer correction-layer)
     ; Color correction starts with inverted color
     (gimp-drawable-invert correction-layer TRUE)
     correction-layer))
