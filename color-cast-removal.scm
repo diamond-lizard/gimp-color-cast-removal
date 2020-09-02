@@ -194,7 +194,7 @@
 
 
 (script-fu-register "script-fu-color-cast-removal"
-                    "Color-Cast Removal"
+                    "Color-Cast Removal..."
                     "Remove a color cast from the image"
                     "Sergey Goldgaber"
                     "Copyright 2020, Sergey Goldgaber"
