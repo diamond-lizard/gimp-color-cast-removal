@@ -10,6 +10,27 @@ The active layer will not be modified.  Instead a new color-correction
 layer will be created, which will be set to your chosen mode.
 After the script finishes you may like to try out a different layer mode.
 
+Installation:
+
+1 - Copy the "color-cast-removal.scm" file to $XDG_CONFIG_HOME/GIMP/2.10/scripts
+    or an alternate location (chosen via Preferences -> Folders -> Scripts)
+
+2 - Select Filters -> Script-Fu -> Refresh Scripts
+
+Use:
+
+1 - (Optional) Select a part of the image, if you want to color correct from
+    the inverse of the average color in the selection.
+
+    Note: If nothing is selected then the color correction will be done
+    using the inverse of the average color of the entire active layer.
+
+2 - Run the script from: Filters -> Enhance -> Color-Cast Removal
+
+Testing:
+
+This script was only tested on GIMP 2.10.8 on amd64 Gentoo Linux
+
 ===========================================================================
 
  LICENSE
