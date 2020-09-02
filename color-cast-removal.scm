@@ -29,10 +29,10 @@
 ;
 ; ===========================================================================
 
-(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode)
-  (gimp-image-undo-group-start given-image)
-  (let* ((selection-bounds (gimp-selection-bounds given-image))
-         ; Saving coordinates of selection or image (if no selection)
+; Return the upper-left-x and upper-left-y of the given selection
+; or of the image, if nothing is selected
+(define (get-upper-left-bounds image)
+  (let* ((selection-bounds (gimp-selection-bounds image))
          (selection-non-empty (head selection-bounds))
          (selection-bounds (tail selection-bounds))
          (selection-upper-left-x (head selection-bounds))
@@ -41,7 +41,14 @@
          (selection-bounds (tail selection-bounds))
          (selection-lower-right-x (head selection-bounds))
          (selection-bounds (tail selection-bounds))
-         (selection-lower-right-y (head selection-bounds))
+         (selection-lower-right-y (head selection-bounds)))
+    (list selection-upper-left-x selection-upper-left-y)))
+
+(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode)
+  (gimp-image-undo-group-start given-image)
+  (let* ((selection-bounds (get-upper-left-bounds given-image))
+         (selection-upper-left-x (car selection-bounds))
+         (selection-upper-left-y (cadr selection-bounds))
          ; Create a new layer from the selection (or from whole image, if there's no selection)
          (ignored (gimp-edit-copy given-layer))
          (floating-selection (car (gimp-edit-paste given-layer FALSE)))
