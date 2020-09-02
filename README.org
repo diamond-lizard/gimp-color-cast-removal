@@ -1,6 +1,18 @@
 Color-cast removal
 
----------------------------------------------------------------------
+This script will automatically color-correct a the active layer,
+based on the average color of the active selection,
+or based on the whole layer if there is no selection.
+
+Note:
+
+The active layer will not be modified.  Instead a new color-correction
+layer will be created, which will be set to your chosen mode.
+After the script finishes you may like to try out a different layer mode.
+
+===========================================================================
+
+ LICENSE
 
 Copyright (C) 2020 - Sergey Goldgaber
 
