@@ -1,6 +1,6 @@
 Color-cast removal
 
-This script will automatically color-correct a the active layer,
+This script will automatically color-correct the active layer,
 based on the average color of the active selection,
 or based on the whole layer if there is no selection.
 
