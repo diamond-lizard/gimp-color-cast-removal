@@ -39,7 +39,7 @@ This achieves the best results because you can dial in just the right amount of 
 [[https://www.youtube.com/watch?v=gr692iyYBUI][Colour Correction in Gimp - Removing Color Cast]] by [[https://www.youtube.com/user/Pixovert][Pixovert]]
 ** Testing:
 This script was only tested on GIMP 2.10.8 on amd64 Gentoo Linux
-** Issues and bugs
+** Bug reports
 Report bugs here:  https://github.com/diamond-lizard/gimp-color-cast-removal/issues
 ** LICENSE
 Copyright (C) 2020 - Sergey Goldgaber
