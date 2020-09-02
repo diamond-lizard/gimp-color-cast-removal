@@ -39,11 +39,14 @@ This achieves the best results because you can dial in just the right amount of 
 [[https://www.youtube.com/watch?v=gr692iyYBUI][Colour Correction in Gimp - Removing Color Cast]] by [[https://www.youtube.com/user/Pixovert][Pixovert]]
 ** Testing:
 This script was only tested on GIMP 2.10.8 on amd64 Gentoo Linux
-** Known issues
-*** There is no live preview
-A live preview is impossible, since GIMP does not allow ScriptFu scripts to have a live preview.
-*** There is no way for the script to open a Colorize dialog
+** FAQ
+*** Why is there no live preview?
+GIMP does not allow ScriptFu scripts to have a live preview.
+*** Why doesn't the script open a Colorize dialog itself?
 This is another limitation of ScriptFu, as it doesn't allow GIMP dialogs to be opened by the script.
+*** The results look wrong.
+**** See the "Tips" section above.
+**** If nothing helps, you may have to try another technique or color correct manually.
 ** Bug reports
 Report bugs here:  https://github.com/diamond-lizard/gimp-color-cast-removal/issues
 ** LICENSE
