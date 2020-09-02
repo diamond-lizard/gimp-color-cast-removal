@@ -47,6 +47,7 @@
      bucket-fill-x
      bucket-fill-y)))
 
+
 (define (create-correction-layer given-image correction-layer-mode average-selection-color)
   (let* ((selection-lower-right-bounds (get-lower-right-bounds given-image))
          (selection-lower-right-x (car selection-lower-right-bounds))
