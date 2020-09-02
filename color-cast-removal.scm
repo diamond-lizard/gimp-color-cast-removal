@@ -29,6 +29,58 @@
 ;
 ; ===========================================================================
 
+(define (create-correction-layer given-image correction-layer-mode average-selection-color)
+  (let* ((selection-lower-right-bounds (get-lower-right-bounds given-image))
+         (selection-lower-right-x (car selection-lower-right-bounds))
+         (selection-lower-right-y (cadr selection-lower-right-bounds))
+         (correction-layer-opacity 100)
+         ; Create a new correction layer
+         (correction-layer-mode
+          (cond
+           ((equal? correction-layer-mode 0)
+            LAYER-MODE-SOFTLIGHT)
+           ((equal? correction-layer-mode 1)
+            LAYER-MODE-HARDLIGHT)
+           ((equal? correction-layer-mode 2)
+            LAYER-MODE-OVERLAY)))
+         (correction-layer (car (gimp-layer-new
+                                 given-image
+                                 selection-lower-right-x
+                                 selection-lower-right-y
+                                 RGB-IMAGE
+                                 "Color Correction"
+                                 correction-layer-opacity
+                                 correction-layer-mode)))
+         ; Correction layer parameters (used for layer insertion below)
+         (correction-layer-parent    0) ;  0 = Outside any group
+         (correction-layer-position -1) ; -1 = Above active layer
+         ; Bucket fill parameters
+         (bucket-fill-opacity 100)
+         (bucket-fill-threshold 255)
+         (bucket-fill-sample-merged FALSE)
+         (bucket-fill-x 0)
+         (bucket-fill-y 0))
+    ; Make the new correction layer visible
+    (gimp-image-insert-layer
+     given-image
+     correction-layer
+     correction-layer-parent
+     correction-layer-position)
+    ; Bucket fill can only use fg/bg colors, so we set fg color here:
+    (gimp-context-set-foreground average-selection-color)
+    (gimp-bucket-fill
+     correction-layer
+     BUCKET-FILL-FG
+     LAYER-MODE-NORMAL
+     bucket-fill-opacity
+     bucket-fill-threshold
+     bucket-fill-sample-merged
+     bucket-fill-x
+     bucket-fill-y)
+    ; Color correction starts with inverted color
+    (gimp-drawable-invert correction-layer TRUE)
+    correction-layer))
+
 ; Return the lower-right-x and lower-right-y of the given selection
 ; or of the image, if nothing is selected
 (define (get-lower-right-bounds image)
@@ -84,58 +136,13 @@
     (gimp-image-remove-layer given-image sample-layer)
     (gimp-selection-none given-image)
     ; Saving coordinates of image
-    (let* ((selection-lower-right-bounds (get-lower-right-bounds given-image))
-           (selection-lower-right-x (car selection-lower-right-bounds))
-           (selection-lower-right-y (cadr selection-lower-right-bounds))
-           (correction-layer-opacity 100)
-           ; Create a new correction layer
-           (correction-layer-mode
-            (cond
-             ((equal? correction-layer-mode 0)
-              LAYER-MODE-SOFTLIGHT)
-             ((equal? correction-layer-mode 1)
-              LAYER-MODE-HARDLIGHT)
-             ((equal? correction-layer-mode 2)
-              LAYER-MODE-OVERLAY)))
-           (correction-layer (car (gimp-layer-new
-                                   given-image
-                                   selection-lower-right-x
-                                   selection-lower-right-y
-                                   RGB-IMAGE
-                                   "Color Correction"
-                                   correction-layer-opacity
-                                   correction-layer-mode)))
-           ; Correction layer parameters (used for layer insertion below)
-           (correction-layer-parent    0) ;  0 = Outside any group
-           (correction-layer-position -1) ; -1 = Above active layer
-           ; Bucket fill parameters
-           (bucket-fill-opacity 100)
-           (bucket-fill-threshold 255)
-           (bucket-fill-sample-merged FALSE)
-           (bucket-fill-x 0)
-           (bucket-fill-y 0))
-      ; Make the new correction layer visible
-      (gimp-image-insert-layer
-       given-image
-       correction-layer
-       correction-layer-parent
-       correction-layer-position)
-      ; Bucket fill can only use fg/bg colors, so we set fg color here:
-      (gimp-context-set-foreground average-selection-color)
-      (gimp-bucket-fill
-       correction-layer
-       BUCKET-FILL-FG
-       LAYER-MODE-NORMAL
-       bucket-fill-opacity
-       bucket-fill-threshold
-       bucket-fill-sample-merged
-       bucket-fill-x
-       bucket-fill-y)
-      ; Color correction starts with inverted color
-      (gimp-drawable-invert correction-layer TRUE)
-      (set-fg-to-inverted-color given-image correction-layer)
+    (let* ((correction-layer (create-correction-layer
+                              given-image
+                              correction-layer-mode
+                              average-selection-color)))
+      (set-fg-to-inverted-color given-image correction-layer))
     (gimp-image-undo-group-end given-image)
-    (gimp-displays-flush))))
+    (gimp-displays-flush)))
 
 
 (define (set-fg-to-inverted-color given-image correction-layer)
