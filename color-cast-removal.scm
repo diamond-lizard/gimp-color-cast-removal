@@ -46,20 +46,20 @@
          (ignored (gimp-edit-copy given-layer))
          (floating-selection (car (gimp-edit-paste given-layer FALSE)))
          (ignored (gimp-floating-sel-to-layer floating-selection))
-         (correction-layer (car (gimp-image-active-drawable given-image)))
-         (ignored (gimp-item-set-name correction-layer "Color correction"))
+         (sample-layer (car (gimp-image-active-drawable given-image)))
+         (ignored (gimp-item-set-name sample-layer "Color sample"))
          ; Find the average color of the new layer
          (sample-merged FALSE) ; FALSE = Only sample active layer
          (sample-average TRUE) ; TRUE  = Average within radius
          (radius 10000)        ; How much to average
          (average-selection-color (car (gimp-image-pick-color
                                         given-image
-                                        correction-layer
+                                        sample-layer
                                         selection-upper-left-x
                                         selection-upper-left-y
                                         sample-merged
                                         sample-average radius))))
-    (gimp-image-remove-layer given-image correction-layer)
+    (gimp-image-remove-layer given-image sample-layer)
     (gimp-selection-none given-image)
     ; Saving coordinates of image
     (let* ((selection-bounds (gimp-selection-bounds given-image))
