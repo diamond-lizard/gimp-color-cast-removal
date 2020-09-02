@@ -29,6 +29,7 @@
 ;
 ; ===========================================================================
 
+
 (define (create-correction-layer given-image correction-layer-mode average-selection-color)
   (let* ((selection-lower-right-bounds (get-lower-right-bounds given-image))
          (selection-lower-right-x (car selection-lower-right-bounds))
@@ -96,6 +97,7 @@
          (selection-lower-right-y (head selection-bounds)))
     (list selection-lower-right-x selection-lower-right-y)))
 
+
 ; Return the upper-left-x and upper-left-y of the given selection
 ; or of the image, if nothing is selected
 (define (get-upper-left-bounds image)
@@ -110,6 +112,7 @@
          (selection-bounds (tail selection-bounds))
          (selection-lower-right-y (head selection-bounds)))
     (list selection-upper-left-x selection-upper-left-y)))
+
 
 (define (script-fu-color-cast-removal given-image given-layer correction-layer-mode)
   (gimp-image-undo-group-start given-image)
@@ -175,5 +178,6 @@
                     SF-IMAGE "Image" 0
                     SF-DRAWABLE "Layer" 0
                     SF-OPTION "Correction layer mode" '("Soft-Light" "Hard-Light" "Overlay"))
+
 
 (script-fu-menu-register "script-fu-color-cast-removal" "<Image>/Filters/Enhance")
