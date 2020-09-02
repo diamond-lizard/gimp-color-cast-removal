@@ -61,9 +61,9 @@
 
 (define (script-fu-color-cast-removal given-image given-layer correction-layer-mode)
   (gimp-image-undo-group-start given-image)
-  (let* ((selection-bounds (get-upper-left-bounds given-image))
-         (selection-upper-left-x (car selection-bounds))
-         (selection-upper-left-y (cadr selection-bounds))
+  (let* ((selection-upper-left-bounds (get-upper-left-bounds given-image))
+         (selection-upper-left-x (car selection-upper-left-bounds))
+         (selection-upper-left-y (cadr selection-upper-left-bounds))
          ; Create a new layer from the selection (or from whole image, if there's no selection)
          (ignored (gimp-edit-copy given-layer))
          (floating-selection (car (gimp-edit-paste given-layer FALSE)))
