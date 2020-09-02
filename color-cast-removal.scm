@@ -75,6 +75,14 @@
            (selection-lower-right-y (head selection-bounds))
            (correction-layer-opacity 100)
            ; Create a new correction layer
+           (correction-layer-mode
+            (cond
+             ((equal? correction-layer-mode 0)
+              LAYER-MODE-SOFTLIGHT)
+             ((equal? correction-layer-mode 1)
+              LAYER-MODE-HARDLIGHT)
+             ((equal? correction-layer-mode 2)
+              LAYER-MODE-OVERLAY)))
            (correction-layer (car (gimp-layer-new
                                    given-image
                                    selection-lower-right-x
@@ -82,7 +90,7 @@
                                    RGB-IMAGE
                                    "Color Correction"
                                    correction-layer-opacity
-                                   SOFTLIGHT-MODE)))
+                                   correction-layer-mode)))
            ; Correction layer parameters (used for layer insertion below)
            (correction-layer-parent    0) ;  0 = Outside any group
            (correction-layer-position -1) ; -1 = Above active layer
