@@ -94,6 +94,20 @@
        bucket-fill-y)
       ; Color correction starts with inverted color
       (gimp-drawable-invert correction-layer TRUE)
+      ; Find the inverted color and set the foreground color in the active pallete to it
+      (let ((sample-merged FALSE) ; FALSE = Only sample active layer
+            (sample-average TRUE) ; FALSE = Average within radius
+            (radius 1)            ; How much to average
+            (inverted-color
+             (car (gimp-image-pick-color
+                   given-image
+                   correction-layer
+                   selection-upper-left-x
+                   selection-upper-left-y
+                   sample-merged
+                   sample-average
+                   radius))))
+        (gimp-context-set-foreground inverted-color))
     (gimp-image-undo-group-end given-image)
     (gimp-displays-flush))))
 
