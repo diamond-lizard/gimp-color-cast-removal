@@ -159,9 +159,11 @@
     (list selection-upper-left-x selection-upper-left-y)))
 
 
-(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode given-opacity given-radius)
+(define (script-fu-color-cast-removal given-image given-layer correction-layer-mode given-opacity given-radius keep-selection)
   (gimp-image-undo-group-start given-image)
-  (let ((average-selection-color (get-average-selection-color given-image given-layer given-radius)))
+  (let* ((ignored (plug-in-sel2path RUN-NONINTERACTIVE given-image given-layer))
+         (saved-path (caadr (gimp-path-list given-image)))
+         (average-selection-color (get-average-selection-color given-image given-layer given-radius)))
     (gimp-selection-none given-image)
     ; Saving coordinates of image
     (let* ((correction-layer (create-correction-layer
@@ -171,6 +173,8 @@
                               given-opacity)))
       (set-fg-to-inverted-color given-image correction-layer))
     (gimp-image-undo-group-end given-image)
+    (if (equal? keep-selection TRUE)
+        (gimp-path-to-selection given-image saved-path CHANNEL-OP-REPLACE FALSE FALSE 0 0))
     (gimp-displays-flush)))
 
 
@@ -205,7 +209,8 @@
                     SF-DRAWABLE "Layer" 0
                     SF-OPTION "Correction layer mode" '("Soft-Light" "Hard-Light" "Overlay")
                     SF-ADJUSTMENT "Correction layer opacity (reduce to lessen effect)" '(100 1 100 1 10 0 SF-SPINNER)
-                    SF-ADJUSTMENT "Radius to sample for averaging" '(10000000 1 10000000 1 1000 0 SF-SPINNER))
+                    SF-ADJUSTMENT "Radius to sample for averaging" '(10000000 1 10000000 1 1000 0 SF-SPINNER)
+                    SF-TOGGLE "Keep selection?" FALSE)
 
 
 (script-fu-menu-register "script-fu-color-cast-removal" "<Image>/Filters/Enhance")
