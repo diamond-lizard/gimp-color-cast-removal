@@ -172,10 +172,10 @@
                               average-selection-color
                               given-opacity)))
       (set-fg-to-inverted-color given-image correction-layer))
-    (gimp-image-undo-group-end given-image)
     (if (equal? keep-selection TRUE)
         (gimp-image-select-item given-image CHANNEL-OP-REPLACE saved-path))
     (gimp-image-remove-vectors given-image saved-path)
+    (gimp-image-undo-group-end given-image)
     (gimp-displays-flush)))
 
 
