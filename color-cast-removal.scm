@@ -175,6 +175,7 @@
     (gimp-image-undo-group-end given-image)
     (if (equal? keep-selection TRUE)
         (gimp-image-select-item given-image CHANNEL-OP-REPLACE saved-path))
+    (gimp-image-remove-vectors given-image saved-path)
     (gimp-displays-flush)))
 
 
