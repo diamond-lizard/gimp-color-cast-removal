@@ -162,7 +162,7 @@
 (define (script-fu-color-cast-removal given-image given-layer correction-layer-mode given-opacity given-radius keep-selection)
   (gimp-image-undo-group-start given-image)
   (let* ((ignored (plug-in-sel2path RUN-NONINTERACTIVE given-image given-layer))
-         (saved-path (caadr (gimp-path-list given-image)))
+         (saved-path (vector-ref (cadr (gimp-image-get-vectors given-image)) 0))
          (average-selection-color (get-average-selection-color given-image given-layer given-radius)))
     (gimp-selection-none given-image)
     ; Saving coordinates of image
@@ -174,7 +174,7 @@
       (set-fg-to-inverted-color given-image correction-layer))
     (gimp-image-undo-group-end given-image)
     (if (equal? keep-selection TRUE)
-        (gimp-path-to-selection given-image saved-path CHANNEL-OP-REPLACE FALSE FALSE 0 0))
+        (gimp-image-select-item given-image CHANNEL-OP-REPLACE saved-path))
     (gimp-displays-flush)))
 
 
