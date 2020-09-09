@@ -18,6 +18,8 @@ Note: If nothing is selected then the color correction will be done using the in
 Run the script from: Filters -> Enhance -> Color-Cast Removal...
 *** 3 (Optional)
 Select the mode and opacity of the color correction layer, and the radius to sample, or just leave them set to the defaults.  Experiment with changing these settings to get different effects.  A lower opacity should have less of an effect.  Soft-light mode should be less strong than the other modes.  A larger sample radius will average over more pixels of your image.
+
+The "Keep selection?" option will determine whether the original selection that exists when you first run the script will be restored afterwards or if nothing will be selected afterwards.
 ** Tips
 *** Before running the script, select part of the image which (were it not for the color cast) should be white
 My best results come from first selecting a part of the image that should be white (except that it has a color cast on it). A good example of such a part of the image is snow.
